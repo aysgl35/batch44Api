@@ -29,7 +29,7 @@ public class GetRequest18 extends GMIBankBaseUrl {
     @Test
     public void test18(){
         //1) URL OLUŞTUR
-    spec03.pathParams("bir", "tp-custormers", "iki", "43703");
+    spec03.pathParams("bir", "tp-customers", "iki", "43703");
 
 
         //2) EXPECTED DATA OLUŞTUR
