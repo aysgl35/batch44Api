@@ -1,8 +1,10 @@
 package get_http_request.day07;
 
 import base_url.GMIBankBaseUrl;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public class GetRequest18 extends GMIBankBaseUrl {
                 .when()
                 .get("/{bir}/{iki}");
 
-        response.prettyPrint();
+       // response.prettyPrint();
 
         //3) DOGRULAMA
 
@@ -62,7 +64,28 @@ public class GetRequest18 extends GMIBankBaseUrl {
                 "city", equalTo("St Louis"),
                 "ssn", equalTo("108-53-6655"));
         // 2. YOL JSON PATH İLE
+        JsonPath json=response.jsonPath();
+        Assert.assertEquals("Alda", json.getString("firstName"));
+        Assert.assertEquals("Monahan", json.getString("lastName"));
+        Assert.assertEquals("Nichelle Hermann Kohler", json.getString("middleInitial"));
+        Assert.assertEquals("com.github.javafaker.Name@7c011174@gmail.com", json.getString("email"));
+        Assert.assertEquals("909-162-8114", json.getString("mobilePhoneNumber"));
+        Assert.assertEquals("St Louis", json.getString("city"));
+        Assert.assertEquals("108-53-6655", json.getString("ssn"));
+
+
         //3. YOL DE-SERİALİZATİON
+        Map<String, Object> actualData=response.as(HashMap.class);
+        System.out.println("ACTUAL DATA" + actualData);
+        Assert.assertEquals(expectedData.get("firstName"), actualData.get("firstName"));
+        Assert.assertEquals(expectedData.get("lastName"), actualData.get("lastName"));
+        Assert.assertEquals(expectedData.get("middleInitial"), actualData.get("middleInitial"));
+        Assert.assertEquals(expectedData.get("email"), actualData.get("email"));
+        Assert.assertEquals(expectedData.get("mobilePhoneNumber"), actualData.get("mobilePhoneNumber"));
+        Assert.assertEquals(expectedData.get("city"), actualData.get("city"));
+        Assert.assertEquals(expectedData.get("ssn"), actualData.get("ssn"));
+
+
 
     }
 }
